@@ -21,9 +21,9 @@ let transactionSchema=new mongoose.Schema({
             values:["PENDING" , "COMPLETED" , "FAILED" , "REVERSED"], 
             message:"status can be either PENDING , COMPLETED FAILED or REVERSED"
         
-        } 
+        } ,
+        default:"PENDING"
     } , 
-        default:"PENDING" ,
 
 
 amount:{
@@ -32,6 +32,9 @@ amount:{
     min:[0 , "Transaction cannot be in negative number"]
 } , 
 idempotencyKey:{
+    //idempotency key is a unique identifier sent with a request to ensure that repeated requests are processed only once , 
+    //preventing the duplicate operation happen
+    //generate on client side
     type:String , 
     required:[true , "Idempotency key is required for transaction"] , 
     index:true , 
@@ -46,4 +49,4 @@ idempotencyKey:{
 )
 
 let model=mongoose.model("transaction" , transactionSchema)
-module.exports=mongoose.model
+module.exports={model}
